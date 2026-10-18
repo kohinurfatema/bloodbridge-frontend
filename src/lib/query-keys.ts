@@ -6,6 +6,7 @@ import type { RequestListParams } from "@/services/request.service";
 // the full history once and lets TanStack Query cache it.
 export const MY_REQUESTS_LIMIT = 100;
 export const MY_PAYMENTS_LIMIT = 100;
+export const MY_MATCHES_LIMIT = 100;
 
 // Central query key factory so cache invalidation stays consistent.
 export const queryKeys = {
@@ -20,7 +21,7 @@ export const queryKeys = {
   },
   matches: {
     all: ["matches"] as const,
-    mine: (page: number) => ["matches", "mine", page] as const,
+    mine: ["matches", "mine"] as const,
     forRequest: (requestId: string) => ["matches", "request", requestId] as const,
   },
   alerts: (params: { page?: number; active?: boolean }) => ["alerts", params] as const,
