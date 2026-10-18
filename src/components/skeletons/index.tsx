@@ -95,3 +95,27 @@ export function DashboardSkeleton() {
     </div>
   );
 }
+
+export function FormSkeleton({ sections = 2 }: { sections?: number }) {
+  return (
+    <div aria-busy="true" aria-label="Loading form" className="flex flex-col gap-6">
+      <PageHeaderSkeleton />
+      {Array.from({ length: sections }, (_, i) => (
+        <Card key={i} className="max-w-3xl">
+          <CardHeader className="space-y-2">
+            <Skeleton className="h-5 w-40" />
+            <Skeleton className="h-4 w-64" />
+          </CardHeader>
+          <CardContent className="grid gap-4 sm:grid-cols-2">
+            {Array.from({ length: 4 }, (_, j) => (
+              <div key={j} className="space-y-2">
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-9 w-full" />
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
