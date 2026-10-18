@@ -17,6 +17,7 @@ import {
   XCircleIcon,
 } from "lucide-react";
 
+import { PaymentCard } from "@/components/payments/payment-card";
 import { ConfirmDialog } from "@/components/shared/confirm-dialog";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ErrorState } from "@/components/shared/error-state";
@@ -262,14 +263,17 @@ export function RequestDetail({ id }: { id: string }) {
           </Card>
         </div>
 
-        <Card className="h-fit">
-          <CardHeader>
-            <CardTitle>Progress</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <StatusTimeline status={request.status} />
-          </CardContent>
-        </Card>
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Progress</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <StatusTimeline status={request.status} />
+            </CardContent>
+          </Card>
+          <PaymentCard request={request} />
+        </div>
       </div>
     </>
   );
