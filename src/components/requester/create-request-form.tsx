@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon, SirenIcon, TriangleAlertIcon } from "lucide-react";
 import { toast } from "sonner";
 
+import { BloodTypePicker } from "@/components/shared/blood-type-picker";
 import { DatePicker } from "@/components/shared/date-picker";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -26,8 +27,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateRequest } from "@/hooks/use-requests";
 import { ApiError } from "@/lib/api/client";
-import { BLOOD_TYPE_LABELS, BLOOD_TYPES } from "@/lib/constants";
-import { cn } from "@/lib/utils";
 import { createRequestSchema, type CreateRequestValues } from "@/lib/validations/request";
 
 const URGENCY_OPTIONS = [
@@ -123,27 +122,11 @@ export function CreateRequestForm() {
               render={({ field, fieldState }) => (
                 <FieldSet data-invalid={fieldState.invalid}>
                   <FieldLegend variant="label">Blood type</FieldLegend>
-                  <RadioGroup
-                    value={field.value ?? ""}
-                    onValueChange={field.onChange}
-                    aria-invalid={fieldState.invalid}
-                    className="grid grid-cols-4 gap-2"
-                  >
-                    {BLOOD_TYPES.map((type) => (
-                      <label
-                        key={type}
-                        className={cn(
-                          "flex h-12 cursor-pointer items-center justify-center rounded-lg border text-base font-bold transition-colors hover:bg-muted",
-                          "has-[:focus-visible]:ring-3 has-[:focus-visible]:ring-ring/50",
-                          field.value === type &&
-                            "border-primary bg-primary text-primary-foreground hover:bg-primary",
-                        )}
-                      >
-                        <RadioGroupItem value={type} className="sr-only" />
-                        {BLOOD_TYPE_LABELS[type]}
-                      </label>
-                    ))}
-                  </RadioGroup>
+                  <BloodTypePicker
+                    value={field.value}
+                    onChange={field.onChange}
+                    invalid={fieldState.invalid}
+                  />
                   <FieldError errors={[fieldState.error]} />
                 </FieldSet>
               )}
