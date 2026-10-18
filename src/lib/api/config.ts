@@ -3,3 +3,4 @@ export const API_URL =
 
 export const ACCESS_TOKEN_COOKIE = "bb_access";
 export const REFRESH_TOKEN_COOKIE = "bb_refresh";
+export const USER_COOKIE = "bb_user";
