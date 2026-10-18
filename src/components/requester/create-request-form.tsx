@@ -76,13 +76,13 @@ export function CreateRequestForm() {
         ...(values.notes && { notes: values.notes }),
       },
       {
-        onSuccess: () => {
+        onSuccess: (created) => {
           toast.success(
             values.urgency === "EMERGENCY"
               ? "Emergency request posted — an alert has been raised."
               : "Blood request posted.",
           );
-          router.push("/dashboard/requester");
+          router.push(`/dashboard/requester/requests/${created.id}`);
         },
       },
     );
