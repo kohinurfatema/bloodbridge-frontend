@@ -40,3 +40,14 @@ export function formatCurrency(amount: number, currency = "usd") {
     currency: currency.toUpperCase(),
   }).format(amount);
 }
+
+// Whole-blood donors must wait 56 days between donations.
+export const DONATION_GAP_DAYS = 56;
+
+export function donationEligibility(lastDonation: string | null | undefined) {
+  if (!lastDonation) return { eligible: true, daysLeft: 0, nextDate: null as Date | null };
+  const next = new Date(lastDonation);
+  next.setDate(next.getDate() + DONATION_GAP_DAYS);
+  const daysLeft = Math.ceil((next.getTime() - Date.now()) / 86_400_000);
+  return { eligible: daysLeft <= 0, daysLeft: Math.max(daysLeft, 0), nextDate: next };
+}
