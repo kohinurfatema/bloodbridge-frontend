@@ -34,7 +34,11 @@ async function postAuth<T>(path: string, body?: unknown) {
   }
 }
 
-export function useAuth() {
+// Only allow same-site relative paths to avoid open redirects.
+const safeRedirect = (path?: string | null) =>
+  path && /^\/(?![/\\])/.test(path) ? path : null;
+
+export function useAuth(options: { redirectTo?: string | null } = {}) {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { user, status, setUser, clear } = useAuthStore();
@@ -43,7 +47,7 @@ export function useAuth() {
     setUser(user);
     queryClient.clear();
     toast.success(`Welcome, ${user.name.split(" ")[0]}!`);
-    router.replace(dashboardPath(user.role));
+    router.replace(safeRedirect(options.redirectTo) ?? dashboardPath(user.role));
     router.refresh();
   };
 
