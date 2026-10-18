@@ -12,7 +12,7 @@ export function PageHeaderSkeleton() {
 
 export function StatCardsSkeleton({ count = 4 }: { count?: number }) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div className={count === 3 ? "grid gap-4 sm:grid-cols-3" : "grid gap-4 sm:grid-cols-2 xl:grid-cols-4"}>
       {Array.from({ length: count }, (_, i) => (
         <Card key={i}>
           <CardHeader className="flex flex-row items-center justify-between gap-2">
