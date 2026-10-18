@@ -2,6 +2,10 @@ import type { AdminUserParams, AuditLogParams } from "@/services/admin.service";
 import type { DonorSearchParams } from "@/services/donor.service";
 import type { RequestListParams } from "@/services/request.service";
 
+// The requester overview filters and paginates on the client, so it fetches
+// the full history once and lets TanStack Query cache it.
+export const MY_REQUESTS_LIMIT = 100;
+
 // Central query key factory so cache invalidation stays consistent.
 export const queryKeys = {
   me: ["me"] as const,
@@ -10,7 +14,7 @@ export const queryKeys = {
   requests: {
     all: ["requests"] as const,
     list: (params: RequestListParams) => ["requests", "list", params] as const,
-    mine: (page: number) => ["requests", "mine", page] as const,
+    mine: ["requests", "mine"] as const,
     detail: (id: string) => ["requests", "detail", id] as const,
   },
   matches: {
