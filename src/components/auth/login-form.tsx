@@ -4,8 +4,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  EyeIcon,
-  EyeOffIcon,
   HandHeartIcon,
   Loader2Icon,
   ShieldCheckIcon,
@@ -23,6 +21,7 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/shared/password-input";
 import { useAuth } from "@/hooks/use-auth";
 import { DEMO_ACCOUNTS } from "@/lib/demo-accounts";
 import { loginSchema, type LoginValues } from "@/lib/validations/auth";
@@ -36,7 +35,6 @@ const ROLE_ICONS: Record<Role, typeof ShieldCheckIcon> = {
 
 export function LoginForm({ redirectTo }: { redirectTo?: string }) {
   const { login } = useAuth({ redirectTo });
-  const [showPassword, setShowPassword] = useState(false);
   const [demoRole, setDemoRole] = useState<Role | null>(null);
 
   const form = useForm<LoginValues>({
@@ -128,27 +126,13 @@ export function LoginForm({ redirectTo }: { redirectTo?: string }) {
 
           <Field data-invalid={!!errors.password}>
             <FieldLabel htmlFor="password">Password</FieldLabel>
-            <div className="relative">
-              <Input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                autoComplete="current-password"
-                placeholder="••••••••"
-                className="pr-10"
-                aria-invalid={!!errors.password}
-                {...form.register("password")}
-              />
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon-sm"
-                className="absolute top-1/2 right-1 -translate-y-1/2"
-                onClick={() => setShowPassword((v) => !v)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-              >
-                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-              </Button>
-            </div>
+            <PasswordInput
+              id="password"
+              autoComplete="current-password"
+              placeholder="••••••••"
+              aria-invalid={!!errors.password}
+              {...form.register("password")}
+            />
             <FieldError errors={[errors.password]} />
           </Field>
 
