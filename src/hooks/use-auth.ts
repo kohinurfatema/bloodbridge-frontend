@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { ApiError, parseResponse } from "@/lib/api/client";
+import { dashboardPath } from "@/lib/auth/routes";
 import { useAuthStore } from "@/store/auth-store";
 import type { Role, SessionUser } from "@/types";
 
@@ -18,9 +19,6 @@ export interface RegisterInput extends LoginInput {
   role: Exclude<Role, "ADMIN">;
   phone?: string;
 }
-
-export const dashboardPath = (role: Role) =>
-  `/dashboard/${role.toLowerCase()}`;
 
 async function postAuth<T>(path: string, body?: unknown) {
   try {
