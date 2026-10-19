@@ -5,6 +5,8 @@ export interface InitiatePaymentInput {
   requestId: string;
   amount: number;
   currency?: string;
+  /** This site's origin, so Stripe returns to the frontend that started checkout */
+  returnUrl?: string;
 }
 
 export const paymentService = {

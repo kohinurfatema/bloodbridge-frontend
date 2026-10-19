@@ -25,7 +25,8 @@ export function useRequestPayment(requestId: string) {
 /** Creates a Stripe Checkout session and redirects the browser to it. */
 export function useInitiatePayment() {
   return useMutation({
-    mutationFn: (input: InitiatePaymentInput) => paymentService.initiate(input),
+    mutationFn: (input: InitiatePaymentInput) =>
+      paymentService.initiate({ ...input, returnUrl: window.location.origin }),
     onSuccess: ({ checkoutUrl }) => {
       window.location.assign(checkoutUrl);
     },
