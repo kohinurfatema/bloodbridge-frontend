@@ -173,10 +173,9 @@ export function DonorMatches() {
   }
   if (isError) return <ErrorState error={error} title="Couldn't load your matches" onRetry={() => refetch()} />;
 
-  // Requests needing a reply first, then newest.
-  const visible = (filter === "ALL" ? matches : matches.filter((m) => m.status === filter))
-    .slice()
-    .sort((a, b) => Number(b.status === "PENDING") - Number(a.status === "PENDING"));
+  // Keep the API's newest-first order. Sorting by status would make a card
+  // jump away the moment it is accepted, putting another card under the cursor.
+  const visible = filter === "ALL" ? matches : matches.filter((m) => m.status === filter);
 
   return (
     <>

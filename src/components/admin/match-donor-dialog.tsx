@@ -80,7 +80,7 @@ export function MatchDonorDialog({ request, onOpenChange }: MatchDonorDialogProp
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
               <div className="flex items-center gap-2 sm:h-9">
                 <Switch id="nearby" checked={nearbyOnly} onCheckedChange={setNearbyOnly} />
-                <Label htmlFor="nearby">Near {request.location}</Label>
+                <Label htmlFor="nearby" className="capitalize">Near {request.location}</Label>
               </div>
               {!nearbyOnly && (
                 <div className="flex flex-1 flex-col gap-2">
