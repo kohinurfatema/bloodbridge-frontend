@@ -1,10 +1,14 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { MY_REQUESTS_LIMIT, queryKeys } from "@/lib/query-keys";
-import { type CreateRequestInput, requestService } from "@/services/request.service";
+import {
+  type CreateRequestInput,
+  type RequestListParams,
+  requestService,
+} from "@/services/request.service";
 import type { BloodRequest } from "@/types";
 
 export function useMyRequests() {
@@ -70,5 +74,13 @@ export function useDeleteRequest() {
       queryClient.invalidateQueries({ queryKey: queryKeys.requests.all });
       toast.success("Request deleted.");
     },
+  });
+}
+
+export function useRequestList(params: RequestListParams) {
+  return useQuery({
+    queryKey: queryKeys.requests.list(params),
+    queryFn: () => requestService.list(params),
+    placeholderData: keepPreviousData,
   });
 }

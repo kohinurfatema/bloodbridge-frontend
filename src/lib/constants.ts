@@ -53,3 +53,15 @@ export const ROLE_LABELS: Record<Role, string> = {
   REQUESTER: "Requester",
   ADMIN: "Admin",
 };
+
+// Which recipient blood types each donor type can give red cells to.
+export const CAN_DONATE_TO: Record<BloodType, BloodType[]> = {
+  O_NEG: ["O_NEG", "O_POS", "A_NEG", "A_POS", "B_NEG", "B_POS", "AB_NEG", "AB_POS"],
+  O_POS: ["O_POS", "A_POS", "B_POS", "AB_POS"],
+  A_NEG: ["A_NEG", "A_POS", "AB_NEG", "AB_POS"],
+  A_POS: ["A_POS", "AB_POS"],
+  B_NEG: ["B_NEG", "B_POS", "AB_NEG", "AB_POS"],
+  B_POS: ["B_POS", "AB_POS"],
+  AB_NEG: ["AB_NEG", "AB_POS"],
+  AB_POS: ["AB_POS"],
+};
