@@ -5,7 +5,10 @@ import { toast } from "sonner";
 
 import { queryKeys } from "@/lib/query-keys";
 import { type AdminUserParams, adminService } from "@/services/admin.service";
-import type { AdminUserRow, PaginationMeta } from "@/types";
+import { type DonorSearchParams, donorService } from "@/services/donor.service";
+import { type CreateMatchInput, matchService } from "@/services/match.service";
+import { requestService } from "@/services/request.service";
+import type { AdminUserRow, BloodRequest, PaginationMeta, RequestStatus } from "@/types";
 
 type UserList = { users: AdminUserRow[]; meta: PaginationMeta };
 const USERS_PREFIX = ["admin", "users"] as const;
@@ -58,6 +61,76 @@ export function useDeleteUser() {
     onSuccess: (_data, user) => {
       toast.success(`${user.name} was deleted.`);
       queryClient.invalidateQueries({ queryKey: USERS_PREFIX });
+      queryClient.invalidateQueries({ queryKey: queryKeys.admin.stats });
+    },
+  });
+}
+
+type RequestList = { requests: BloodRequest[]; meta: PaginationMeta };
+const REQUEST_LISTS = ["requests", "list"] as const;
+
+/** Admin status change (e.g. fulfil / cancel), applied optimistically to every cached list page. */
+export function useAdminRequestStatus() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, status }: { id: string; status: RequestStatus }) =>
+      requestService.updateStatus(id, status),
+    onMutate: async ({ id, status }) => {
+      await queryClient.cancelQueries({ queryKey: REQUEST_LISTS });
+      const snapshot = queryClient.getQueriesData<RequestList>({ queryKey: REQUEST_LISTS });
+      queryClient.setQueriesData<RequestList>({ queryKey: REQUEST_LISTS }, (old) =>
+        old && { ...old, requests: old.requests.map((r) => (r.id === id ? { ...r, status } : r)) },
+      );
+      return { snapshot };
+    },
+    onError: (error, _vars, context) => {
+      context?.snapshot.forEach(([key, data]) => queryClient.setQueryData(key, data));
+      toast.error(error.message);
+    },
+    onSuccess: (_data, { status }) => toast.success(`Request marked as ${status.toLowerCase()}.`),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.requests.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.admin.stats });
+    },
+  });
+}
+
+/** Available donors with exactly the requested blood type — the backend's matching rule. */
+export function useMatchCandidates(request: BloodRequest | null, location?: string) {
+  const params: DonorSearchParams = {
+    bloodType: request?.bloodType,
+    isAvailable: true,
+    location: location || undefined,
+    limit: 20,
+    sortBy: "lastDonationDate",
+    sortOrder: "asc",
+  };
+  return useQuery({
+    queryKey: queryKeys.donors(params),
+    queryFn: () => donorService.search(params),
+    enabled: !!request,
+    placeholderData: keepPreviousData,
+  });
+}
+
+export function useRequestMatches(requestId: string | undefined) {
+  return useQuery({
+    queryKey: queryKeys.matches.forRequest(requestId ?? ""),
+    queryFn: () => matchService.listForRequest(requestId!),
+    enabled: !!requestId,
+  });
+}
+
+export function useCreateMatch() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (input: CreateMatchInput) => matchService.create(input),
+    onSuccess: (match) => {
+      toast.success(`${match.donor?.name ?? "Donor"} matched. They'll be asked to accept.`);
+      queryClient.invalidateQueries({ queryKey: queryKeys.requests.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.matches.all });
+      queryClient.invalidateQueries({ queryKey: ["donors"] });
       queryClient.invalidateQueries({ queryKey: queryKeys.admin.stats });
     },
   });
