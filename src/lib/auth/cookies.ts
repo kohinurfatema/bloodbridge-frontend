@@ -1,5 +1,6 @@
 import type { NextResponse } from "next/server";
 
+import { backendFetch } from "@/lib/api/backend-fetch";
 import {
   ACCESS_TOKEN_COOKIE,
   API_URL,
@@ -59,8 +60,9 @@ export function clearAuthCookies(res: NextResponse) {
 /** Exchanges a refresh token for a new access token. Returns null if it fails. */
 export async function refreshAccessToken(refreshToken: string) {
   try {
-    const res = await fetch(`${API_URL}/auth/refresh-token`, {
+    const res = await backendFetch(`${API_URL}/auth/refresh-token`, {
       method: "POST",
+      retry: true,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ refreshToken }),
       cache: "no-store",

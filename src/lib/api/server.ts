@@ -8,6 +8,7 @@ import {
   parseResponse,
   type RequestOptions,
 } from "@/lib/api/client";
+import { backendFetch } from "@/lib/api/backend-fetch";
 import { ACCESS_TOKEN_COOKIE, API_URL } from "@/lib/api/config";
 
 /**
@@ -20,7 +21,7 @@ export async function serverApi<T>(path: string, options: RequestOptions = {}) {
 
   let res: Response;
   try {
-    res = await fetch(`${API_URL}${path}${buildQuery(query)}`, {
+    res = await backendFetch(`${API_URL}${path}${buildQuery(query)}`, {
       cache: "no-store",
       ...rest,
       headers: {

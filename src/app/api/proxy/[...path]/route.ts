@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
+import { backendFetch } from "@/lib/api/backend-fetch";
 import {
   ACCESS_TOKEN_COOKIE,
   API_URL,
@@ -23,7 +24,7 @@ function callBackend(
   if (contentType) headers.set("Content-Type", contentType);
   if (token) headers.set("Authorization", `Bearer ${token}`);
 
-  return fetch(url, { method: req.method, headers, body, cache: "no-store" });
+  return backendFetch(url, { method: req.method, headers, body, cache: "no-store" });
 }
 
 async function forward(

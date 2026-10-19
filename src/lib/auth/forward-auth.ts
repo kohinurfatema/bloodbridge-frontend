@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { backendFetch } from "@/lib/api/backend-fetch";
 import { API_URL } from "@/lib/api/config";
 import { setAuthCookies } from "@/lib/auth/cookies";
 import type { ApiFailure, ApiSuccess, AuthResult } from "@/types";
@@ -13,8 +14,10 @@ export async function forwardAuth(endpoint: "login" | "register", req: Request) 
   let status: number;
 
   try {
-    const res = await fetch(`${API_URL}/auth/${endpoint}`, {
+    const res = await backendFetch(`${API_URL}/auth/${endpoint}`, {
       method: "POST",
+      // Login is safe to repeat; a repeated register just reports "email taken"
+      retry: endpoint === "login",
       headers: { "Content-Type": "application/json" },
       body: await req.text(),
       cache: "no-store",
