@@ -51,3 +51,7 @@ export function donationEligibility(lastDonation: string | null | undefined) {
   const daysLeft = Math.ceil((next.getTime() - Date.now()) / 86_400_000);
   return { eligible: daysLeft <= 0, daysLeft: Math.max(daysLeft, 0), nextDate: next };
 }
+
+/** "1 donor", "3 donors" — pass the plural form when it isn't just +s. */
+export const plural = (count: number, word: string, pluralWord = `${word}s`) =>
+  `${count} ${count === 1 ? word : pluralWord}`;
