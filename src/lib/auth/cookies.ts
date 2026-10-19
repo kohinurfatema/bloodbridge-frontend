@@ -40,7 +40,11 @@ export function setAuthCookies(
     ...baseCookie,
     maxAge: SEVEN_DAYS,
   });
-  res.cookies.set(USER_COOKIE, JSON.stringify(data.user), {
+  setUserCookie(res, data.user);
+}
+
+export function setUserCookie(res: NextResponse, user: SessionUser) {
+  res.cookies.set(USER_COOKIE, JSON.stringify(user), {
     ...baseCookie,
     maxAge: SEVEN_DAYS,
   });
