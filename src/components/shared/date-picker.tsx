@@ -7,7 +7,7 @@ import type { Matcher } from "react-day-picker";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { formatDate } from "@/lib/format";
+import { formatDate, toApiDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 interface DatePickerProps {
@@ -48,7 +48,7 @@ export function DatePicker({
           className={cn("w-full justify-start font-normal", !value && "text-muted-foreground")}
         >
           <CalendarIcon aria-hidden />
-          {value ? formatDate(value) : placeholder}
+          {value ? formatDate(toApiDate(value)) : placeholder}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">

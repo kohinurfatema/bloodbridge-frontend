@@ -61,12 +61,18 @@ function RequestTable({ requests }: { requests: BloodRequest[] }) {
       </TableHeader>
       <TableBody>
         {requests.map((r) => (
-          <TableRow key={r.id} className="group">
+          <TableRow key={r.id} className="relative">
             <TableCell>
               <BloodTypeBadge type={r.bloodType} size="sm" />
             </TableCell>
             <TableCell>
-              <div className="font-medium">{r.hospital ?? "Hospital not set"}</div>
+              {/* Stretched link: the ::after overlay makes the whole row clickable */}
+              <Link
+                href={detailHref(r.id)}
+                className="font-medium outline-none after:absolute after:inset-0 focus-visible:after:rounded-md focus-visible:after:ring-3 focus-visible:after:ring-ring/50"
+              >
+                {r.hospital ?? "Hospital not set"}
+              </Link>
               <div className="text-xs text-muted-foreground">
                 {r.units} unit{r.units > 1 && "s"} · {r.location}
               </div>
@@ -83,11 +89,7 @@ function RequestTable({ requests }: { requests: BloodRequest[] }) {
             </TableCell>
             <TableCell className="text-right tabular-nums">{r.matches?.length ?? 0}</TableCell>
             <TableCell className="text-right">
-              <Button variant="ghost" size="icon-sm" asChild>
-                <Link href={detailHref(r.id)} aria-label={`View request for ${r.hospital ?? r.location}`}>
-                  <ChevronRightIcon />
-                </Link>
-              </Button>
+              <ChevronRightIcon className="ml-auto size-4 text-muted-foreground" aria-hidden />
             </TableCell>
           </TableRow>
         ))}

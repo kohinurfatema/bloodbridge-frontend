@@ -99,7 +99,7 @@ export function LoginForm({ redirectTo }: { redirectTo?: string }) {
         </div>
       </section>
 
-      <FieldSeparator>or log in with email</FieldSeparator>
+      <FieldSeparator className="my-0">or log in with email</FieldSeparator>
 
       {login.isError && (
         <Alert variant="destructive">

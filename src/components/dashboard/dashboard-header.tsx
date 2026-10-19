@@ -41,9 +41,13 @@ function useBreadcrumbs() {
   const segments = usePathname().split("/").filter(Boolean);
   return segments.map((segment, i) => ({
     href: `/${segments.slice(0, i + 1).join("/")}`,
-    label: UUID_RE.test(segment)
-      ? `#${segment.slice(0, 8)}`
-      : (LABELS[segment] ?? segment.replace(/-/g, " ")),
+    label:
+      // Any segment after "requests" other than "new" is a request id
+      segments[i - 1] === "requests" && segment !== "new"
+        ? "Details"
+        : UUID_RE.test(segment)
+          ? `#${segment.slice(0, 8)}`
+          : (LABELS[segment] ?? segment.replace(/-/g, " ")),
   }));
 }
 

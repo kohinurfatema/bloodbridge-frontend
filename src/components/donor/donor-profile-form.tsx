@@ -27,7 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { useDonorProfile, useSaveDonorProfile } from "@/hooks/use-donor";
 import { ApiError } from "@/lib/api/client";
-import { donationEligibility, formatDate } from "@/lib/format";
+import { donationEligibility, formatDate, fromApiDate, toApiDate } from "@/lib/format";
 import { donorProfileSchema, type DonorProfileValues } from "@/lib/validations/donor";
 import type { DonorProfile } from "@/types";
 
@@ -40,17 +40,17 @@ function ProfileForm({ profile }: { profile: DonorProfile | null }) {
     defaultValues: {
       bloodType: profile?.bloodType,
       location: profile?.location ?? "",
-      lastDonationDate: profile?.lastDonationDate ? new Date(profile.lastDonationDate) : undefined,
+      lastDonationDate: profile?.lastDonationDate ? fromApiDate(profile.lastDonationDate) : undefined,
       isAvailable: profile?.isAvailable ?? true,
     },
   });
   const { errors, isDirty } = form.formState;
   const lastDonation = useWatch({ control: form.control, name: "lastDonationDate" });
-  const eligibility = donationEligibility(lastDonation?.toISOString());
+  const eligibility = donationEligibility(lastDonation && toApiDate(lastDonation));
 
   const onSubmit = (values: DonorProfileValues) => {
     const lastDonationDate = values.lastDonationDate
-      ? new Date(new Date(values.lastDonationDate).setHours(12, 0, 0, 0)).toISOString()
+      ? toApiDate(values.lastDonationDate)
       : undefined;
 
     save.mutate(
@@ -128,7 +128,7 @@ function ProfileForm({ profile }: { profile: DonorProfile | null }) {
                 <FieldLabel htmlFor="location">City / area</FieldLabel>
                 <Input
                   id="location"
-                  placeholder="Dhaka"
+                  placeholder="e.g. Dhaka"
                   autoComplete="address-level2"
                   aria-invalid={!!errors.location}
                   {...form.register("location")}

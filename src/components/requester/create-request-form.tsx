@@ -27,6 +27,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateRequest } from "@/hooks/use-requests";
 import { ApiError } from "@/lib/api/client";
+import { toApiDate } from "@/lib/format";
 import { createRequestSchema, type CreateRequestValues } from "@/lib/validations/request";
 
 const URGENCY_OPTIONS = [
@@ -60,17 +61,13 @@ export function CreateRequestForm() {
   const notes = useWatch({ control: form.control, name: "notes" }) ?? "";
 
   const onSubmit = (values: CreateRequestValues) => {
-    // Noon local time keeps the chosen calendar day in every timezone.
-    const required = new Date(values.requiredDate);
-    required.setHours(12, 0, 0, 0);
-
     createRequest.mutate(
       {
         bloodType: values.bloodType,
         urgency: values.urgency,
         units: values.units,
         location: values.location,
-        requiredDate: required.toISOString(),
+        requiredDate: toApiDate(values.requiredDate),
         ...(values.hospital && { hospital: values.hospital }),
         ...(values.notes && { notes: values.notes }),
       },
@@ -221,7 +218,7 @@ export function CreateRequestForm() {
                 </FieldLabel>
                 <Input
                   id="hospital"
-                  placeholder="Dhaka Medical College Hospital"
+                  placeholder="e.g. Dhaka Medical College Hospital"
                   aria-invalid={!!errors.hospital}
                   {...form.register("hospital")}
                 />
@@ -232,7 +229,7 @@ export function CreateRequestForm() {
                 <FieldLabel htmlFor="location">City / area</FieldLabel>
                 <Input
                   id="location"
-                  placeholder="Dhaka"
+                  placeholder="e.g. Dhaka"
                   aria-invalid={!!errors.location}
                   {...form.register("location")}
                 />

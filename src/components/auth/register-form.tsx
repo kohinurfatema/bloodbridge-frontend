@@ -121,7 +121,7 @@ export function RegisterForm({ defaultRole = "DONOR" }: { defaultRole?: "DONOR" 
           <Input
             id="name"
             autoComplete="name"
-            placeholder="Nadia Islam"
+            placeholder="Your full name"
             aria-invalid={!!errors.name}
             {...form.register("name")}
           />

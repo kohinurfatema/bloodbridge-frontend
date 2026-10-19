@@ -22,6 +22,25 @@ export function formatDate(value: string | Date | null | undefined, withTime = f
   }).format(new Date(value));
 }
 
+/**
+ * Date-picker days are local calendar days, but the app shows dates in Dhaka
+ * time. Store a picked day as noon in Dhaka so it reads the same everywhere.
+ */
+export function toApiDate(day: Date) {
+  return new Date(
+    Date.UTC(day.getFullYear(), day.getMonth(), day.getDate(), 12 - 6),
+  ).toISOString();
+}
+
+/** The reverse of toApiDate: an API date as a local Date for the date picker. */
+export function fromApiDate(value: string) {
+  const [y, m, d] = new Intl.DateTimeFormat("en-CA", { timeZone: APP_TIME_ZONE })
+    .format(new Date(value))
+    .split("-")
+    .map(Number);
+  return new Date(y, m - 1, d);
+}
+
 export function formatRelative(value: string | Date) {
   const diff = new Date(value).getTime() - Date.now();
   const abs = Math.abs(diff);
