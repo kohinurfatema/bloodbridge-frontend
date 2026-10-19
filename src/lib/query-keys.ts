@@ -7,6 +7,7 @@ import type { RequestListParams } from "@/services/request.service";
 export const MY_REQUESTS_LIMIT = 100;
 export const MY_PAYMENTS_LIMIT = 100;
 export const MY_MATCHES_LIMIT = 100;
+export const ALERT_PAGE_SIZE = 10;
 
 // Central query key factory so cache invalidation stays consistent.
 export const queryKeys = {
@@ -24,7 +25,7 @@ export const queryKeys = {
     mine: ["matches", "mine"] as const,
     forRequest: (requestId: string) => ["matches", "request", requestId] as const,
   },
-  alerts: (params: { page?: number; active?: boolean }) => ["alerts", params] as const,
+  alerts: (params: { page?: number; active?: boolean; limit?: number }) => ["alerts", params] as const,
   payments: {
     all: ["payments"] as const,
     mine: ["payments", "mine"] as const,

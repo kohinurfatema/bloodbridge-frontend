@@ -7,9 +7,14 @@ export const initials = (name: string) =>
     .slice(0, 2)
     .toUpperCase();
 
+// BloodBridge serves Bangladesh; all dates display in local (Dhaka) time.
+export const APP_TIME_ZONE = "Asia/Dhaka";
+
 export function formatDate(value: string | Date | null | undefined, withTime = false) {
   if (!value) return "—";
   return new Intl.DateTimeFormat("en-GB", {
+    // Fixed zone so server-rendered and browser-rendered dates always match.
+    timeZone: APP_TIME_ZONE,
     day: "numeric",
     month: "short",
     year: "numeric",

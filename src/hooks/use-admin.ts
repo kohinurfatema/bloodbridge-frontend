@@ -3,12 +3,19 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { queryKeys } from "@/lib/query-keys";
-import { type AdminUserParams, adminService } from "@/services/admin.service";
+import { ALERT_PAGE_SIZE, queryKeys } from "@/lib/query-keys";
+import { alertService } from "@/services/alert.service";
+import { type AdminUserParams, type AuditLogParams, adminService } from "@/services/admin.service";
 import { type DonorSearchParams, donorService } from "@/services/donor.service";
 import { type CreateMatchInput, matchService } from "@/services/match.service";
 import { requestService } from "@/services/request.service";
-import type { AdminUserRow, BloodRequest, PaginationMeta, RequestStatus } from "@/types";
+import type {
+  AdminUserRow,
+  BloodRequest,
+  EmergencyAlert,
+  PaginationMeta,
+  RequestStatus,
+} from "@/types";
 
 type UserList = { users: AdminUserRow[]; meta: PaginationMeta };
 const USERS_PREFIX = ["admin", "users"] as const;
@@ -133,5 +140,64 @@ export function useCreateMatch() {
       queryClient.invalidateQueries({ queryKey: ["donors"] });
       queryClient.invalidateQueries({ queryKey: queryKeys.admin.stats });
     },
+  });
+}
+
+type AlertList = { alerts: EmergencyAlert[]; meta: PaginationMeta };
+
+export function useAlertList(params: { page: number; active: boolean }) {
+  const query = { ...params, limit: ALERT_PAGE_SIZE };
+  return useQuery({
+    queryKey: queryKeys.alerts(query),
+    queryFn: () => alertService.list(query),
+    placeholderData: keepPreviousData,
+  });
+}
+
+/** Marks an alert resolved immediately in every cached alert list. */
+export function useResolveAlert() {
+  const queryClient = useQueryClient();
+  const prefix = ["alerts"] as const;
+
+  return useMutation({
+    mutationFn: (id: string) => alertService.resolve(id),
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: prefix });
+      const snapshot = queryClient.getQueriesData<AlertList>({ queryKey: prefix });
+      queryClient.setQueriesData<AlertList>({ queryKey: prefix }, (old) =>
+        old && { ...old, alerts: old.alerts.map((a) => (a.id === id ? { ...a, isResolved: true } : a)) },
+      );
+      return { snapshot };
+    },
+    onError: (error, _id, context) => {
+      context?.snapshot.forEach(([key, data]) => queryClient.setQueryData(key, data));
+      toast.error(error.message);
+    },
+    onSuccess: () => toast.success("Alert resolved."),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: prefix });
+      queryClient.invalidateQueries({ queryKey: queryKeys.admin.stats });
+    },
+  });
+}
+
+export function useCreateAlert() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (requestId: string) => alertService.create(requestId),
+    onSuccess: () => {
+      toast.success("Emergency alert raised.");
+      queryClient.invalidateQueries({ queryKey: ["alerts"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.admin.stats });
+    },
+    onError: () => {},
+  });
+}
+
+export function useAuditLogs(params: AuditLogParams) {
+  return useQuery({
+    queryKey: queryKeys.admin.audit(params),
+    queryFn: () => adminService.listAuditLogs(params),
+    placeholderData: keepPreviousData,
   });
 }
