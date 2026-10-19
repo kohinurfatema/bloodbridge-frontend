@@ -15,6 +15,7 @@ import {
 import { DataPagination } from "@/components/shared/data-pagination";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ErrorState } from "@/components/shared/error-state";
+import { SegmentedControl } from "@/components/shared/segmented-control";
 import { StatCard } from "@/components/shared/stat-card";
 import {
   BloodTypeBadge,
@@ -32,7 +33,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useQueryParams } from "@/hooks/use-query-params";
 import { useMyRequests } from "@/hooks/use-requests";
 import { REQUEST_STATUSES } from "@/lib/constants";
@@ -175,20 +175,12 @@ export function RequesterOverview() {
       <Card>
         <CardHeader className="gap-4">
           <CardTitle>My blood requests</CardTitle>
-          <Tabs value={filter} onValueChange={(v) => setParams({ status: v === "ALL" ? null : v, page: null })}>
-            <div className="-mx-1 overflow-x-auto px-1 pb-1">
-              <TabsList>
-                {FILTERS.map((f) => (
-                  <TabsTrigger key={f} value={f} className="capitalize">
-                    {f.toLowerCase()}
-                    <span className="ml-1 rounded-full bg-muted px-1.5 text-xs tabular-nums text-muted-foreground">
-                      {counts[f]}
-                    </span>
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </div>
-          </Tabs>
+          <SegmentedControl
+            label="Filter requests by status"
+            value={filter}
+            onChange={(v) => setParams({ status: v === "ALL" ? null : v, page: null })}
+            options={FILTERS.map((f) => ({ value: f, label: <span className="capitalize">{f.toLowerCase()}</span>, count: counts[f] }))}
+          />
         </CardHeader>
         <CardContent className="space-y-4">
           {visible.length === 0 ? (

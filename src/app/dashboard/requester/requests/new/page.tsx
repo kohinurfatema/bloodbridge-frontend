@@ -21,7 +21,7 @@ export default function NewRequestPage() {
         title="New blood request"
         description="Tell donors what you need. Accurate details lead to faster matches."
       />
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <CreateRequestForm />
         </div>

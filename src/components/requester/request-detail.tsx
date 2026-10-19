@@ -92,14 +92,24 @@ function StatusTimeline({ status }: { status: RequestStatus }) {
   );
 }
 
-function DetailRow({ icon: Icon, label, children }: { icon: typeof MapPinIcon; label: string; children: React.ReactNode }) {
+function DetailRow({
+  icon: Icon,
+  label,
+  children,
+  className,
+}: {
+  icon: typeof MapPinIcon;
+  label: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  // A <dl> group may only contain <dt>/<dd>, so the icon lives inside the <dt>.
   return (
-    <div className="flex gap-3">
-      <Icon className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-hidden />
-      <div className="min-w-0">
-        <dt className="text-xs text-muted-foreground">{label}</dt>
-        <dd className="text-sm font-medium break-words">{children}</dd>
-      </div>
+    <div className={className}>
+      <dt className="flex items-center gap-2 text-xs text-muted-foreground">
+        <Icon className="size-4 shrink-0" aria-hidden /> {label}
+      </dt>
+      <dd className="mt-0.5 pl-6 text-sm font-medium break-words">{children}</dd>
     </div>
   );
 }
@@ -213,7 +223,7 @@ export function RequestDetail({ id }: { id: string }) {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
           <Card>
             <CardHeader>
@@ -240,11 +250,9 @@ export function RequestDetail({ id }: { id: string }) {
                   {formatDate(request.createdAt, true)}
                 </DetailRow>
                 {request.notes && (
-                  <div className="sm:col-span-2">
-                    <DetailRow icon={StickyNoteIcon} label="Notes">
-                      <span className="font-normal whitespace-pre-line">{request.notes}</span>
-                    </DetailRow>
-                  </div>
+                  <DetailRow icon={StickyNoteIcon} label="Notes" className="sm:col-span-2">
+                    <span className="font-normal whitespace-pre-line">{request.notes}</span>
+                  </DetailRow>
                 )}
               </dl>
             </CardContent>

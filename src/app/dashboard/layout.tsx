@@ -27,7 +27,7 @@ export default async function DashboardLayout({
         <SessionSync user={user} />
       </Suspense>
       <AppSidebar user={user} />
-      <SidebarInset>
+      <SidebarInset id="main-content">
         <DashboardHeader role={user.role} />
         <div className="flex flex-1 flex-col gap-6 p-4 md:p-6 lg:p-8">{children}</div>
       </SidebarInset>

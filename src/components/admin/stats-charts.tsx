@@ -93,6 +93,7 @@ export function UserRoleChart({ data }: { data: DashboardStats["users"] }) {
                 <TooltipTrigger asChild>
                   <div
                     tabIndex={0}
+                    role="img"
                     aria-label={`${s.label}: ${value} (${pct(value, total)}%)`}
                     className={`${s.color} h-full outline-none transition-opacity hover:opacity-80 focus-visible:ring-3 focus-visible:ring-ring/50 ${
                       i === 0 ? "rounded-l-[4px]" : ""

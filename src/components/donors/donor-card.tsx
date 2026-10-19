@@ -22,7 +22,7 @@ export function DonorCard({ donor }: { donor: DonorSearchResult }) {
           <AvatarFallback className="bg-muted font-semibold">{initials(donor.user.name)}</AvatarFallback>
         </Avatar>
         <div className="min-w-0 flex-1">
-          <h3 className="truncate font-semibold">{donor.user.name}</h3>
+          <h2 className="truncate font-semibold">{donor.user.name}</h2>
           <p className="flex items-center gap-1 text-sm text-muted-foreground">
             <MapPinIcon className="size-3.5 shrink-0" aria-hidden />
             <span className="truncate">{donor.location}</span>

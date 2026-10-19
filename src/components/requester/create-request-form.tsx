@@ -150,7 +150,7 @@ export function CreateRequestForm() {
                             <FieldTitle>{option.title}</FieldTitle>
                             <FieldDescription>{option.description}</FieldDescription>
                           </FieldContent>
-                          <RadioGroupItem value={option.value} id={`urgency-${option.value}`} />
+                          <RadioGroupItem value={option.value} id={`urgency-${option.value}`} aria-label={option.title} />
                         </Field>
                       </FieldLabel>
                     ))}

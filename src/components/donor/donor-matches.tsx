@@ -16,12 +16,12 @@ import {
 import { ConfirmDialog } from "@/components/shared/confirm-dialog";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ErrorState } from "@/components/shared/error-state";
+import { SegmentedControl } from "@/components/shared/segmented-control";
 import { BloodTypeBadge, StatusBadge, UrgencyBadge } from "@/components/shared/status-badges";
 import { CardGridSkeleton } from "@/components/skeletons";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDonorProfile, useMyMatches, useRespondToMatch } from "@/hooks/use-donor";
 import { useQueryParams } from "@/hooks/use-query-params";
 import { BLOOD_TYPE_LABELS, MATCH_STATUSES } from "@/lib/constants";
@@ -57,10 +57,10 @@ function MatchCard({ match }: { match: DonationMatch }) {
       <CardHeader className="flex flex-row items-start gap-3">
         {req && <BloodTypeBadge type={req.bloodType} />}
         <div className="min-w-0 flex-1 space-y-1">
-          <h3 className="flex items-center gap-1.5 font-semibold">
+          <h2 className="flex items-center gap-1.5 font-semibold">
             <BuildingIcon className="size-4 shrink-0 text-muted-foreground" aria-hidden />
             <span className="truncate">{req?.hospital ?? "Hospital not specified"}</span>
-          </h3>
+          </h2>
           <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
             <MapPinIcon className="size-4 shrink-0" aria-hidden /> {req?.location ?? "—"}
           </p>
@@ -180,20 +180,12 @@ export function DonorMatches() {
 
   return (
     <>
-      <Tabs value={filter} onValueChange={(v) => setParams({ status: v === "ALL" ? null : v })}>
-        <div className="-mx-1 overflow-x-auto px-1 pb-1">
-          <TabsList>
-            {FILTERS.map((f) => (
-              <TabsTrigger key={f} value={f}>
-                {FILTER_LABELS[f]}
-                <span className="ml-1 rounded-full bg-muted px-1.5 text-xs tabular-nums text-muted-foreground">
-                  {counts[f]}
-                </span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </div>
-      </Tabs>
+      <SegmentedControl
+        label="Filter matches by status"
+        value={filter}
+        onChange={(v) => setParams({ status: v === "ALL" ? null : v })}
+        options={FILTERS.map((f) => ({ value: f, label: FILTER_LABELS[f], count: counts[f] }))}
+      />
 
       {visible.length === 0 ? (
         <EmptyState

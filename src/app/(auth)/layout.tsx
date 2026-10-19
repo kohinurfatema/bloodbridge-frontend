@@ -13,7 +13,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       {/* Brand panel — hidden on small screens to keep the form first */}
-      <aside className="relative hidden overflow-hidden bg-primary p-10 text-primary-foreground lg:flex lg:flex-col lg:justify-between">
+      <aside className="brand-surface relative hidden overflow-hidden p-10 lg:flex lg:flex-col lg:justify-between">
         <div className="flex items-center gap-2 text-lg font-bold">
           <DropletIcon className="size-6 fill-current" aria-hidden />
           BloodBridge
@@ -25,7 +25,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           </h2>
           <ul className="space-y-4">
             {highlights.map(({ icon: Icon, text }) => (
-              <li key={text} className="flex items-center gap-3 text-primary-foreground/90">
+              <li key={text} className="flex items-center gap-3 opacity-90">
                 <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-white/15">
                   <Icon className="size-4" aria-hidden />
                 </span>
@@ -35,7 +35,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           </ul>
         </div>
 
-        <p className="relative z-10 text-sm text-primary-foreground/70">
+        <p className="relative z-10 text-sm">
           © {new Date().getFullYear()} BloodBridge. Connecting donors with patients.
         </p>
 
@@ -45,7 +45,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         />
       </aside>
 
-      <main className="flex flex-col px-4 py-6 sm:px-8">
+      <main id="main-content" className="flex flex-col px-4 py-6 sm:px-8">
         <div className="flex items-center justify-between">
           <Logo className="lg:invisible" />
           <ThemeToggle />

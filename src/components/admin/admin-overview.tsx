@@ -96,7 +96,7 @@ export function AdminOverview() {
         />
       </section>
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <RequestStatusChart data={data.bloodRequests} />
         </div>
@@ -105,7 +105,7 @@ export function AdminOverview() {
 
       <UserRoleChart data={data.users} />
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between gap-2">
             <CardTitle>Latest requests</CardTitle>

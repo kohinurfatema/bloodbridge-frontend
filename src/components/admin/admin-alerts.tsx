@@ -15,12 +15,12 @@ import { ConfirmDialog } from "@/components/shared/confirm-dialog";
 import { DataPagination } from "@/components/shared/data-pagination";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ErrorState } from "@/components/shared/error-state";
+import { SegmentedControl } from "@/components/shared/segmented-control";
 import { BloodTypeBadge, StatusBadge, UrgencyBadge } from "@/components/shared/status-badges";
 import { CardGridSkeleton } from "@/components/skeletons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAlertList, useResolveAlert } from "@/hooks/use-admin";
 import { useQueryParams } from "@/hooks/use-query-params";
 import { useRequest } from "@/hooks/use-requests";
@@ -112,12 +112,15 @@ export function AdminAlerts() {
   return (
     <>
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <Tabs value={view} onValueChange={(v) => setParams({ view: v === "active" ? null : v, page: null })}>
-          <TabsList>
-            <TabsTrigger value="active">Active</TabsTrigger>
-            <TabsTrigger value="all">All alerts</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <SegmentedControl
+          label="Which alerts to show"
+          value={view}
+          onChange={(v) => setParams({ view: v === "active" ? null : v, page: null })}
+          options={[
+            { value: "active", label: "Active" },
+            { value: "all", label: "All alerts" },
+          ]}
+        />
         <RaiseAlertDialog alertedRequestIds={alerted} />
       </div>
 

@@ -139,7 +139,7 @@ export function MatchDonorDialog({ request, onOpenChange }: MatchDonorDialogProp
                           </p>
                         </div>
                         {!eligible && nextDate && (
-                          <Badge variant="outline" className="text-amber-700 dark:text-amber-300">
+                          <Badge variant="outline" className="text-amber-800 dark:text-amber-300">
                             Eligible {formatDate(nextDate)}
                           </Badge>
                         )}

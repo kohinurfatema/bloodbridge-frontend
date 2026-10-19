@@ -30,7 +30,7 @@ export function BloodTypePicker({ value, onChange, invalid }: BloodTypePickerPro
             value === type && "border-primary bg-primary text-primary-foreground hover:bg-primary",
           )}
         >
-          <RadioGroupItem value={type} className="sr-only" />
+          <RadioGroupItem value={type} className="sr-only" aria-label={BLOOD_TYPE_LABELS[type]} />
           {BLOOD_TYPE_LABELS[type]}
         </label>
       ))}

@@ -10,7 +10,7 @@ export default function PaymentLayout({ children }: { children: React.ReactNode 
         <Logo />
         <ThemeToggle />
       </header>
-      <main className="flex flex-1 items-center justify-center px-4 pb-16">
+      <main id="main-content" className="flex flex-1 items-center justify-center px-4 pb-16">
         <div className="w-full max-w-md">{children}</div>
       </main>
     </div>

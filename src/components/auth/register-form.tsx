@@ -106,7 +106,7 @@ export function RegisterForm({ defaultRole = "DONOR" }: { defaultRole?: "DONOR" 
                         </FieldTitle>
                         <FieldDescription>{description}</FieldDescription>
                       </FieldContent>
-                      <RadioGroupItem value={value} id={`role-${value}`} />
+                      <RadioGroupItem value={value} id={`role-${value}`} aria-label={title} />
                     </Field>
                   </FieldLabel>
                 ))}

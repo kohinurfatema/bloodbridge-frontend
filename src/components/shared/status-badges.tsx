@@ -46,7 +46,7 @@ export function BloodTypeBadge({
 
 const URGENCY_STYLES: Record<Urgency, { className: string; icon: typeof ClockIcon }> = {
   NORMAL: { className: "bg-sky-500/10 text-sky-700 dark:text-sky-300", icon: ClockIcon },
-  URGENT: { className: "bg-amber-500/15 text-amber-700 dark:text-amber-300", icon: AlertTriangleIcon },
+  URGENT: { className: "bg-amber-500/15 text-amber-800 dark:text-amber-300", icon: AlertTriangleIcon },
   EMERGENCY: { className: "bg-red-500/15 text-red-700 dark:text-red-300", icon: SirenIcon },
 };
 
@@ -62,7 +62,7 @@ export function UrgencyBadge({ urgency }: { urgency: Urgency }) {
 type AnyStatus = RequestStatus | MatchStatus | PaymentStatus;
 
 const STATUS_STYLES: Record<AnyStatus, { className: string; icon: typeof ClockIcon }> = {
-  PENDING: { className: "bg-amber-500/15 text-amber-700 dark:text-amber-300", icon: CircleDashedIcon },
+  PENDING: { className: "bg-amber-500/15 text-amber-800 dark:text-amber-300", icon: CircleDashedIcon },
   MATCHED: { className: "bg-violet-500/15 text-violet-700 dark:text-violet-300", icon: LinkIcon },
   ACCEPTED: { className: "bg-violet-500/15 text-violet-700 dark:text-violet-300", icon: CheckCircle2Icon },
   FULFILLED: { className: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300", icon: CheckCircle2Icon },

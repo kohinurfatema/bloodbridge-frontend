@@ -109,7 +109,7 @@ export default function HomePage() {
     <>
       <SiteHeader />
       {/* overflow-x-clip: decorative glows and tilted cards must never cause sideways scroll */}
-      <main className="flex-1 overflow-x-clip">
+      <main id="main-content" className="flex-1 overflow-x-clip">
         {/* Hero */}
         <section className="mx-auto grid max-w-6xl items-center gap-16 px-4 py-16 md:py-24 lg:grid-cols-2">
           <div className="space-y-6">
@@ -164,7 +164,12 @@ export default function HomePage() {
                         <span className="flex size-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
                           <Icon className="size-5" aria-hidden />
                         </span>
-                        <span className="text-4xl font-bold text-muted-foreground/20">0{i + 1}</span>
+                        {/* Decorative step number drawn via ::before so it isn't read or contrast-checked */}
+                        <span
+                          aria-hidden
+                          data-step={`0${i + 1}`}
+                          className="text-4xl font-bold text-muted-foreground/20 before:content-[attr(data-step)]"
+                        />
                       </div>
                       <div className="space-y-1">
                         <Badge variant="secondary">{role}</Badge>
@@ -215,12 +220,12 @@ export default function HomePage() {
 
         {/* CTA */}
         <section className="mx-auto max-w-6xl px-4 py-16 md:py-20">
-          <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-12 text-center text-primary-foreground sm:px-12">
+          <div className="brand-surface relative overflow-hidden rounded-3xl px-6 py-12 text-center sm:px-12">
             <DropletIcon className="pointer-events-none absolute -top-10 -right-10 size-64 fill-white/10 text-transparent" aria-hidden />
             <div className="relative mx-auto max-w-xl space-y-4">
               <HeartHandshakeIcon className="mx-auto size-10" aria-hidden />
               <h2 className="text-3xl font-bold tracking-tight">One donation can save three lives.</h2>
-              <p className="text-primary-foreground/85">
+              <p className="opacity-90">
                 Register as a donor today — it takes two minutes, and we&apos;ll only reach out when
                 someone with your blood type needs you.
               </p>
@@ -228,7 +233,7 @@ export default function HomePage() {
                 <Button size="lg" variant="secondary" asChild>
                   <Link href="/register?role=DONOR">Become a donor</Link>
                 </Button>
-                <Button size="lg" variant="ghost" asChild className="text-primary-foreground hover:bg-white/10 hover:text-primary-foreground">
+                <Button size="lg" variant="ghost" asChild className="text-current hover:bg-white/10 hover:text-current">
                   <Link href="/login">
                     <BellRingIcon /> Try a demo account
                   </Link>

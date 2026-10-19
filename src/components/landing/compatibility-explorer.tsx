@@ -21,7 +21,8 @@ function TypeList({ types, highlight }: { types: BloodType[]; highlight: BloodTy
             key={t}
             className={cn(
               "flex h-10 w-12 items-center justify-center rounded-lg border text-sm font-bold",
-              on ? "border-primary/40 bg-primary/10 text-primary" : "border-dashed text-muted-foreground/50",
+              // Incompatible types: dashed + struck through, so it never relies on faintness alone
+              on ? "border-primary/40 bg-primary/10 text-primary" : "border-dashed font-medium text-muted-foreground line-through",
               t === highlight && on && "ring-2 ring-primary/40",
             )}
           >

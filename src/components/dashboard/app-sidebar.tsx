@@ -68,7 +68,7 @@ export function AppSidebar({ user }: { user: SessionUser }) {
   const sections = NAVIGATION[user.role];
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" role="navigation" aria-label="Dashboard">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
