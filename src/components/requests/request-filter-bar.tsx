@@ -41,7 +41,7 @@ function FilterSelect({
   options: { value: string; label: string }[];
 }) {
   return (
-    <div className="space-y-2">
+    <div className="flex flex-col gap-2">
       <Label htmlFor={id}>{label}</Label>
       <Select value={value} onValueChange={onChange}>
         <SelectTrigger id={id} className="w-full">
@@ -96,7 +96,7 @@ export function RequestFilterBar({ filters, showStatus = false }: RequestFilterB
               : "grid gap-4 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_auto] lg:items-end"
           }
         >
-          <div className="space-y-2 sm:col-span-2 lg:col-span-1">
+          <div className="flex flex-col gap-2 sm:col-span-2 lg:col-span-1">
             <Label htmlFor="req-location">Location</Label>
             <div className="relative">
               <SearchIcon className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />

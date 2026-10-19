@@ -61,7 +61,7 @@ export function DonorSearch() {
             onSubmit={(e) => e.preventDefault()}
             className="grid gap-4 md:grid-cols-2 lg:grid-cols-[1fr_1.5fr_1fr_auto] lg:items-end"
           >
-            <div className="space-y-2">
+            <div className="flex flex-col gap-2">
               <Label htmlFor="bloodType">Blood type</Label>
               <Select
                 value={filters.bloodType ?? "ALL"}
@@ -81,7 +81,7 @@ export function DonorSearch() {
               </Select>
             </div>
 
-            <div className="space-y-2">
+            <div className="flex flex-col gap-2">
               <Label htmlFor="location">Location</Label>
               <div className="relative">
                 <SearchIcon className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
@@ -96,7 +96,7 @@ export function DonorSearch() {
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="flex flex-col gap-2">
               <Label htmlFor="sort">Sort by</Label>
               <Select value={filters.sort} onValueChange={(v) => setParams({ sort: v === "newest" ? null : v, page: null })}>
                 <SelectTrigger id="sort" className="w-full">
