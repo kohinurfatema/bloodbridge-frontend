@@ -7,7 +7,13 @@ export const metadata: Metadata = {
   title: "Create account — BloodBridge",
 };
 
-export default function RegisterPage() {
+export default async function RegisterPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ role?: string }>;
+}) {
+  const { role } = await searchParams;
+
   return (
     <div className="space-y-6">
       <div className="space-y-2">
@@ -17,7 +23,7 @@ export default function RegisterPage() {
         </p>
       </div>
 
-      <RegisterForm />
+      <RegisterForm defaultRole={role === "REQUESTER" ? "REQUESTER" : "DONOR"} />
 
       <p className="text-center text-sm text-muted-foreground">
         Already have an account?{" "}

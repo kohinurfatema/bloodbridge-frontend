@@ -19,6 +19,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  // Absolute base for Open Graph image URLs (set NEXT_PUBLIC_SITE_URL in production).
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: "BloodBridge — Blood Donation & Emergency Platform",
   description:
     "Find blood donors, post emergency blood requests and manage donations in one place.",

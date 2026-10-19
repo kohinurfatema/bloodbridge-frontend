@@ -39,7 +39,7 @@ const ROLE_OPTIONS = [
   },
 ] as const;
 
-export function RegisterForm() {
+export function RegisterForm({ defaultRole = "DONOR" }: { defaultRole?: "DONOR" | "REQUESTER" }) {
   const { register: registerUser } = useAuth();
 
   const form = useForm<RegisterValues>({
@@ -48,7 +48,7 @@ export function RegisterForm() {
       name: "",
       email: "",
       phone: "",
-      role: "DONOR",
+      role: defaultRole,
       password: "",
       confirmPassword: "",
     },
