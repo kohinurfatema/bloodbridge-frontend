@@ -1,5 +1,7 @@
 import { DropletIcon, HeartPulseIcon, ShieldCheckIcon, UsersIcon } from "lucide-react";
 
+import bloodDrivePhoto from "@/assets/images/blood-drive.jpg";
+import { BrandPhoto } from "@/components/shared/brand-photo";
 import { Logo } from "@/components/shared/logo";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 
@@ -14,7 +16,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     <div className="grid min-h-svh lg:grid-cols-2">
       {/* Brand panel — hidden on small screens to keep the form first */}
       <aside className="brand-surface relative hidden overflow-hidden p-10 lg:flex lg:flex-col lg:justify-between">
-        <div className="flex items-center gap-2 text-lg font-bold">
+        <BrandPhoto src={bloodDrivePhoto} sizes="50vw" />
+
+        <div className="relative z-10 flex items-center gap-2 text-lg font-bold">
           <DropletIcon className="size-6 fill-current" aria-hidden />
           BloodBridge
         </div>

@@ -17,8 +17,10 @@ import {
   UserCheckIcon,
 } from "lucide-react";
 
+import donorPhoto from "@/assets/images/donor-chair.jpg";
 import { CompatibilityExplorer } from "@/components/landing/compatibility-explorer";
 import { SiteHeader } from "@/components/landing/site-header";
+import { BrandPhoto } from "@/components/shared/brand-photo";
 import { Logo } from "@/components/shared/logo";
 import { BloodTypeBadge, StatusBadge, UrgencyBadge } from "@/components/shared/status-badges";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -221,6 +223,7 @@ export default function HomePage() {
         {/* CTA */}
         <section className="mx-auto max-w-6xl px-4 py-16 md:py-20">
           <div className="brand-surface relative overflow-hidden rounded-3xl px-6 py-12 text-center sm:px-12">
+            <BrandPhoto src={donorPhoto} sizes="(min-width: 1152px) 1120px, 100vw" />
             <DropletIcon className="pointer-events-none absolute -top-10 -right-10 size-64 fill-white/10 text-transparent" aria-hidden />
             <div className="relative mx-auto max-w-xl space-y-4">
               <HeartHandshakeIcon className="mx-auto size-10" aria-hidden />
