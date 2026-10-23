@@ -6,9 +6,11 @@ BloodBridge is a blood donation and emergency platform. Requesters post blood re
 
 | | |
 |---|---|
-| **Live frontend** | _add your Vercel URL here_ |
+| **Live frontend** | https://bloodbridge-frontend-ten.vercel.app |
 | **Live API** | https://bloodbridge-rove.onrender.com |
 | **Backend repo** | https://github.com/kohinurfatema/bloodbridge |
+
+> The API runs on Render's free tier, which sleeps after 15 minutes without traffic. If the first click is slow, give it up to a minute to wake up; after that it responds normally.
 
 ## Demo accounts
 
